@@ -23,7 +23,7 @@ object SparkMLeapReader {
     predictions.select(colFeatures,colLabel,colPrediction).sort(colFeatures,colLabel,colPrediction).show(10)
 
     val sum = predictions.agg(Map("prediction"->"sum")).take(1)(0).getDouble(0)
-    println(s"Prediction sum: ${sum}")
+    println(f"Prediction sum: ${sum}%.3f")
 
     println("Prediction Counts:")
     predictions.groupBy("prediction").count().sort(desc("count")).show

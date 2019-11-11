@@ -13,7 +13,7 @@ object PredictUtils {
     val sum = predictions.sum
     println(f"Prediction sum: ${sum}%.3f")
 
-    val groups = predictions.groupBy(x => x).mapValues(_.size).toSeq
+    val groups = predictions.groupBy(x => x).mapValues(_.size).toSeq.sortBy(_._2).reverse
     println(s"Prediction Counts:")
     println(s"  prediction count")
     for (g <- groups) {
