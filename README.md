@@ -2,12 +2,13 @@
 
 Basic MLeap examples. 
 
-Demonstrates end-to-end creation of an MLeap bundle and its consumption as a Spark bundle or MLeap bundle.
+Demonstrates end-to-end creation of an MLeap bundle and scoring it as a Spark bundle and MLeap bundle.
 
 #### Synopsis
 * Create an MLeap bundle that can be read by either Spark or MLeap without Spark
-* Load and score using SparkBundle
-* Load and score using MLeapBundle - no Spark code
+* Load and score using SparkBundle (does not score correctly)
+  * Run Databricks job to load and score using SparkBundle (scores correctly)
+* Load and score using MLeapBundle - no Spark code (scores correctly)
 * DecisionTreeRegressor with wine quality dataset
 
 #### MLeap Bundles
@@ -52,7 +53,7 @@ spark-submit \
   --class org.andre.mleap.wine.SparkMLeapWriter \
   --master local[2] \
   target/mleap-spark-examples-1.0-SNAPSHOT.jar \
-  --bundlePath file:$PWD/../bundles/wine-model \
+  --bundlePath jar:file:$PWD/../bundles/wine-model.zip \
   --dataPath ../data/wine-quality-white.csv \
   --schemaPath ../wine_schema.json
 ```
@@ -63,7 +64,7 @@ spark-submit \
   --class org.andre.mleap.wine.SparkMLeapReader \
   --master local[2] \
   target/mleap-spark-examples-1.0-SNAPSHOT.jar \
-  --bundlePath file:$PWD/../bundles/wine-model \
+  --bundlePath jar:file:$PWD/../bundles/wine-model.zip \
   --dataPath ../data/wine-quality-white.csv
 ```
 
@@ -84,6 +85,24 @@ scala \
   -cp target/mleap-examples-1.0-SNAPSHOT.jar \
   org.andre.mleap.wine.MLeapReader \
   --dataPath ../data/wine-quality-white.csv \
-  --bundlePath file:$PWD/../bundles/wine-model \
+  --bundlePath jar:file:$PWD/../bundles/wine-model.zip \
   --schemaPath ../wine_schema.json
+```
+
+## Running SparkBundleReader on Databricks
+
+SparkBundleReader works correctly on a Databricks cluster.
+
+Copy artifacts to DBFS.
+```
+cd spark_bundle
+databricks fs mkdirs dbfs:/tmp/mleap-fun
+databricks fs cp target/mleap-spark-examples-1.0-SNAPSHOT.jar dbfs:/tmp/mleap-fun
+databricks fs cp ../data/wine-quality-white.csv dbfs:/tmp/mleap-fun
+databricks fs cp ../bundles/wine-model.zip dbfs:/tmp/mleap-fun
+```
+
+Run the job on the cluster.
+```
+databricks runs submit --json-file run_submit.json
 ```
