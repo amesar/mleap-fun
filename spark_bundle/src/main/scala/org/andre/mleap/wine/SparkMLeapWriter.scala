@@ -5,6 +5,7 @@ import org.apache.spark.sql.{SparkSession,DataFrame}
 import org.apache.spark.ml.feature.VectorAssembler
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.regression.DecisionTreeRegressor
+import org.apache.spark.ml.evaluation.RegressionEvaluator
 import com.beust.jcommander.{JCommander, Parameter}
 import ml.combust.mleap.core.types._
 import org.andre.mleap.MLeapUtils
@@ -54,6 +55,17 @@ object SparkMLeapWriter {
     val predictions = model.transform(dataHolder.testData)
     println("Predictions Schema:")
     predictions.printSchema()
+
+    println("Metrics:")
+    val metrics = Seq("rmse","r2", "mae")
+    for (metric <- metrics) { 
+      val evaluator = new RegressionEvaluator()
+        .setLabelCol(colLabel)
+        .setPredictionCol(colPrediction)
+        .setMetricName(metric)
+      val v = evaluator.evaluate(predictions)
+      println(f"  $metric%-4s: $v%.3f - isLargerBetter: ${evaluator.isLargerBetter}")
+    } 
 
     createOutputDir(bundlePath)
     MLeapUtils.saveModelAsSparkBundle(bundlePath, model, predictions)
