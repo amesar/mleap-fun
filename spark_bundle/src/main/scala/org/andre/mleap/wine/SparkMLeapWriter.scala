@@ -8,7 +8,7 @@ import org.apache.spark.ml.regression.DecisionTreeRegressor
 import org.apache.spark.ml.evaluation.RegressionEvaluator
 import com.beust.jcommander.{JCommander, Parameter}
 import ml.combust.mleap.core.types._
-import org.andre.mleap.MLeapUtils
+import org.andre.mleap.{MLeapUtils,CommonUtils}
 import org.andre.mleap.wine.Utils._
 
 case class DataHolder(trainingData: DataFrame, testData: DataFrame, assembler: VectorAssembler)
@@ -67,20 +67,8 @@ object SparkMLeapWriter {
       println(f"  $metric%-4s: $v%.3f - isLargerBetter: ${evaluator.isLargerBetter}")
     } 
 
-    createOutputDir(bundlePath)
+    CommonUtils.createOutputDir(bundlePath)
     MLeapUtils.saveModelAsSparkBundle(bundlePath, model, predictions)
-  }
-
-  def createOutputDir(bundlePath: String) {
-    if (bundlePath.startsWith("file:")) {
-      val path = bundlePath.replace("file:","")
-      (new File(path)).mkdirs
-    } else if (bundlePath.startsWith("jar:")) {
-      val path = bundlePath.replace("jar:file:","")
-      (new File(path)).getParentFile.mkdirs
-    } else {
-      throw new Exception(s"Bad bundle URI: $bundlePath")
-    }
   }
 
   object opts {

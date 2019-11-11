@@ -15,13 +15,13 @@ object PredictUtils {
 
     val groups = predictions.groupBy(x => x).mapValues(_.size).toSeq.sortBy(_._2).reverse
     println(s"Prediction Counts:")
-    println(s"  prediction count")
+    println(s"  prediction    count")
     for (g <- groups) {
-      println(f"       ${g._1}%5.3f ${g._2}%5d")
+      println(f"     ${g._1}%7.3f ${g._2}%8d")
     }
     println(s"${predictions.size} Predictions:")
     for (p <- predictions.take(10)) {
-      println(f"  $p%5.3f")
+      println(f"  $p%7.3f")
     }
   }
 }
