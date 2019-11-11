@@ -2,7 +2,7 @@ package org.andre.mleap.wine
 
 import com.beust.jcommander.{JCommander, Parameter}
 import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.desc
+import org.apache.spark.sql.functions._
 import org.andre.mleap.MLeapUtils
 import org.andre.mleap.wine.Utils._
 
@@ -21,6 +21,9 @@ object SparkMLeapReader {
     val predictions = model.transform(data)
     println("Predictions:")
     predictions.select(colFeatures,colLabel,colPrediction).sort(colFeatures,colLabel,colPrediction).show(10)
+
+    val sum = predictions.agg(Map("prediction"->"sum")).take(1)(0).getDouble(0)
+    println(s"Prediction sum: ${sum}")
 
     println("Prediction Counts:")
     predictions.groupBy("prediction").count().sort(desc("count")).show
