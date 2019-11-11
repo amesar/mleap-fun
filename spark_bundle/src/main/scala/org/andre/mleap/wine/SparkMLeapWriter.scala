@@ -3,9 +3,7 @@ package org.andre.mleap.wine
 import java.io.{File,PrintWriter}
 import org.apache.spark.sql.{SparkSession,DataFrame}
 import org.apache.spark.ml.feature.VectorAssembler
-//import org.apache.spark.ml.feature.{VectorIndexer,VectorIndexerModel}
 import org.apache.spark.ml.Pipeline
-//import org.apache.spark.ml.evaluation.RegressionEvaluator
 import org.apache.spark.ml.regression.DecisionTreeRegressor
 import com.beust.jcommander.{JCommander, Parameter}
 import ml.combust.mleap.core.types._
@@ -23,8 +21,10 @@ object SparkMLeapWriter {
     println(s"  dataPath: ${opts.dataPath}")
     println(s"  bundlePath: ${opts.bundlePath}")
     println(s"  schemaPath: ${opts.schemaPath}")
+    println(s"  maxDepth: ${opts.maxDepth}")
+    println(s"  maxBins: ${opts.maxBins}")
     val dataHolder = prepareData(opts.dataPath, opts.schemaPath)
-    train(opts.bundlePath, dataHolder)
+    train(opts.bundlePath, dataHolder, opts.maxDepth, opts.maxBins)
   }
 
   def prepareData(dataPath: String, schemaPath: String) : DataHolder = {
@@ -41,10 +41,12 @@ object SparkMLeapWriter {
     DataHolder(trainingData, testData, assembler)
   }
 
-  def train(bundlePath: String, dataHolder: DataHolder) {
+  def train(bundlePath: String, dataHolder: DataHolder, maxDepth: Int, maxBins: Int) {
    val dt = new DecisionTreeRegressor()
       .setLabelCol(colLabel)
       .setFeaturesCol(colFeatures)
+      .setMaxDepth(maxDepth)
+      .setMaxBins(maxBins)
 
     val pipeline = new Pipeline().setStages(Array(dataHolder.assembler,dt))
     val model = pipeline.fit(dataHolder.trainingData)
@@ -78,5 +80,11 @@ object SparkMLeapWriter {
 
     @Parameter(names = Array("--schemaPath" ), description = "schemaPath", required=true)
     var schemaPath: String = null
+
+    @Parameter(names = Array("--maxDepth" ), description = "maxDepth param", required=false)
+    var maxDepth: Int = 5 // per doc
+
+    @Parameter(names = Array("--maxBins" ), description = "maxBins param", required=false)
+    var maxBins: Int = 32 // per doc
   }
 }
