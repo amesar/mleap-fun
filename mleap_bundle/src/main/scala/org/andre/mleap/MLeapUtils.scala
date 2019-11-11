@@ -18,6 +18,7 @@ object MLeapUtils {
     obundle.get.root
   }
 
+  /** Read JSON Spark schema and create MLeap schema. */
   def readSchema(path: String) : StructType = {
     val json = Source.fromFile(path).mkString
     json.parseJson.convertTo[StructType]

@@ -22,12 +22,19 @@ object MLeapReader {
     println(s"Model class: ${model.getClass.getName}")
 
     val transformed = model.transform(data).get
-    val predictions = transformed.select("prediction").get.dataset
-    println(s"Predictions class: ${predictions.getClass.getName}")
+    val predictions = transformed.select("prediction").get.dataset.map(p => p.getDouble(0))
 
     println(s"${predictions.size} Predictions:")
     for (p <- predictions.take(10)) {
-      println(f"  ${p.getDouble(0)}%5.3f")
+      println(f"  $p%5.3f")
+    }
+    val sum = predictions.sum
+    println(f"Prediction sum: ${sum}%.3f")
+
+    val groups = predictions.groupBy(x => x).mapValues(_.size).toSeq
+    println(s"\nprediction count")
+    for (g <- groups) {
+      println(f"     ${g._1}%5.3f ${g._2}%5d")
     }
   }
 
