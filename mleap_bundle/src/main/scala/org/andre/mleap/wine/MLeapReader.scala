@@ -1,9 +1,8 @@
 package org.andre.mleap.wine
 
 import com.beust.jcommander.{JCommander, Parameter}
-import ml.combust.mleap.runtime.frame.Row
-import ml.combust.mleap.runtime.frame.DefaultLeapFrame
-import org.andre.mleap.MLeapUtils
+import ml.combust.mleap.runtime.frame.{DefaultLeapFrame,Row}
+import org.andre.mleap.{MLeapUtils,PredictUtils}
 
 object MLeapReader {
 
@@ -11,31 +10,13 @@ object MLeapReader {
     new JCommander(opts, args.toArray: _*)
     println("Options:")
     println(s"  dataPath: ${opts.dataPath}")
-    println(s"  bundlePath: ${opts.bundlePath}")
     println(s"  schemaPath: ${opts.schemaPath}")
+    println(s"  bundlePath: ${opts.bundlePath}")
 
     val schema = MLeapUtils.readSchema(opts.schemaPath)
-    val lst = readData(opts.dataPath)
-    val data = DefaultLeapFrame(schema, lst)
-
-    val model = MLeapUtils.readModelAsMLeapBundle(opts.bundlePath)
-    println(s"Model class: ${model.getClass.getName}")
-
-    val transformed = model.transform(data).get
-    val predictions = transformed.select("prediction").get.dataset.map(p => p.getDouble(0))
-
-    println(s"${predictions.size} Predictions:")
-    for (p <- predictions.take(10)) {
-      println(f"  $p%5.3f")
-    }
-    val sum = predictions.sum
-    println(f"Prediction sum: ${sum}%.3f")
-
-    val groups = predictions.groupBy(x => x).mapValues(_.size).toSeq
-    println(s"\nprediction count")
-    for (g <- groups) {
-      println(f"     ${g._1}%5.3f ${g._2}%5d")
-    }
+    val dataList = readData(opts.dataPath)
+    val data = DefaultLeapFrame(schema, dataList)
+    PredictUtils.predict(opts.bundlePath, data)
   }
 
   def readData(dataPath: String) = {
@@ -49,10 +30,10 @@ object MLeapReader {
     @Parameter(names = Array("--dataPath" ), description = "Data path", required=true)
     var dataPath: String = null
 
-    @Parameter(names = Array("--bundlePath" ), description = "bundlePath", required=true)
+    @Parameter(names = Array("--bundlePath" ), description = "Bundle Path", required=true)
     var bundlePath: String = null
 
-    @Parameter(names = Array("--schemaPath" ), description = "schemaPath", required=true)
+    @Parameter(names = Array("--schemaPath" ), description = "Schema Path", required=true)
     var schemaPath: String = null
   }
 }
