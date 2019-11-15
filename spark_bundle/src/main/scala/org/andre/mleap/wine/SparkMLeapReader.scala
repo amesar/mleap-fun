@@ -1,6 +1,6 @@
 package org.andre.mleap.wine
 
-import com.beust.jcommander.{JCommander, Parameter}
+import com.beust.jcommander.{JCommander,Parameter}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 import org.andre.mleap.MLeapUtils
@@ -15,6 +15,7 @@ object SparkMLeapReader {
     println(s"  bundlePath: ${opts.bundlePath}")
     
     val spark = SparkSession.builder.appName("Predict").getOrCreate()
+    println("Spark version: "+spark.version)
     val data = readData(spark,opts.dataPath)
 
     val model = MLeapUtils.readModelAsSparkBundle(opts.bundlePath)

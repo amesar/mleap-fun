@@ -5,6 +5,9 @@ Basic MLeap examples.
 Demonstrates end-to-end creation of an MLeap bundle and serving it as a Spark bundle and MLeap bundle.
 
 #### Synopsis
+* Versions:
+  * Spark 2.4.4
+  * MLeap 0.13.0
 * Create an MLeap bundle that can be read by either Spark or MLeap without Spark
 * Load and score using SparkBundle (does not score correctly)
   * Run Databricks job to load and score using SparkBundle (scores correctly)
@@ -33,7 +36,7 @@ If the jar is run against a Databricks ML 6.1 cluster the program does score cor
 
 ## Setup
 
-* Install Spark 2.3.0.
+* Install Spark 2.4.4.
 * Install Scala 2.11.8.
 
 ## SparkBundle
@@ -101,6 +104,7 @@ databricks fs mkdirs dbfs:/tmp/mleap-fun
 databricks fs cp target/mleap-spark-examples-1.0-SNAPSHOT.jar dbfs:/tmp/mleap-fun
 databricks fs cp ../data/wine-quality-white.csv dbfs:/tmp/mleap-fun
 databricks fs cp ../bundles/wine-model.zip dbfs:/tmp/mleap-fun
+databricks fs cp wine_schema.json dbfs:/tmp/mleap-fun
 ```
 
 Run the job on the cluster.

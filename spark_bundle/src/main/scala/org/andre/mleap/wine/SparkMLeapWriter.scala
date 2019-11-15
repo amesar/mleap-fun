@@ -15,6 +15,7 @@ case class DataHolder(trainingData: DataFrame, testData: DataFrame, assembler: V
 
 object SparkMLeapWriter {
   val spark = SparkSession.builder.appName("DecisionTreeRegressionExample").getOrCreate()
+  println("Spark version: "+spark.version)
 
   def main(args: Array[String]) {
     new JCommander(opts, args: _*)
