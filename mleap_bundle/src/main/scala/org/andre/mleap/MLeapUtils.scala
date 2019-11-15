@@ -13,10 +13,12 @@ object MLeapUtils {
   println("Mleap Bundle version: "+Bundle.version)
 
   def readModelAsMLeapBundle(bundlePath: String) = {
-    val obundle = (for(bundle <- managed(BundleFile(bundlePath))) yield {
-      bundle.loadMleapBundle().get
-    }).opt
-    obundle.get.root
+    val bundle = BundleFile(bundlePath)
+    try {
+      bundle.loadMleapBundle.get.root
+    } finally {
+      bundle.close()
+    }
   }
 
   /** Read JSON Spark schema and create MLeap schema. */
