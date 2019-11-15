@@ -1,4 +1,4 @@
-package org.andre.mleap.wine
+package org.andre.mleap.spark.wine
 
 import org.apache.spark.sql.SparkSession
 

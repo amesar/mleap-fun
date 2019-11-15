@@ -54,7 +54,7 @@ See [samples/wine_schema.json](samples/wine_schema.json).
 
 ```
 spark-submit \
-  --class org.andre.mleap.wine.SparkMLeapWriter \
+  --class org.andre.mleap.spark.wine.SparkMLeapWriter \
   --master local[2] \
   target/mleap-spark-examples-1.0-SNAPSHOT.jar \
   --bundlePath jar:file:$PWD/../bundles/wine-model.zip \
@@ -65,7 +65,7 @@ spark-submit \
 **Read and score Spark bundle**
 ```
 spark-submit \
-  --class org.andre.mleap.wine.SparkMLeapReader \
+  --class org.andre.mleap.spark.wine.SparkMLeapReader \
   --master local[2] \
   target/mleap-spark-examples-1.0-SNAPSHOT.jar \
   --bundlePath jar:file:$PWD/../bundles/wine-model.zip \

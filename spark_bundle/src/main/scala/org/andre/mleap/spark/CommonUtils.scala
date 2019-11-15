@@ -1,4 +1,4 @@
-package org.andre.mleap
+package org.andre.mleap.spark
 
 import java.io.File
 

@@ -1,10 +1,10 @@
-package org.andre.mleap.wine
+package org.andre.mleap.spark.wine
 
 import com.beust.jcommander.{JCommander,Parameter}
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
-import org.andre.mleap.MLeapUtils
-import org.andre.mleap.wine.Utils._
+import org.andre.mleap.spark.MLeapUtils
+import org.andre.mleap.spark.wine.Utils._
 
 object SparkMLeapReader {
 

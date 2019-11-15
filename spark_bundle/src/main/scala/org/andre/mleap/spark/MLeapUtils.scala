@@ -1,4 +1,4 @@
-package org.andre.mleap
+package org.andre.mleap.spark
 
 import ml.combust.bundle.BundleFile
 import ml.combust.mleap.spark.SparkSupport._

@@ -1,4 +1,4 @@
-package org.andre.mleap.wine
+package org.andre.mleap.spark.wine
 
 import java.io.{File,PrintWriter}
 import org.apache.spark.sql.{SparkSession,DataFrame}
@@ -8,8 +8,8 @@ import org.apache.spark.ml.regression.DecisionTreeRegressor
 import org.apache.spark.ml.evaluation.RegressionEvaluator
 import com.beust.jcommander.{JCommander, Parameter}
 import ml.combust.mleap.core.types._
-import org.andre.mleap.{MLeapUtils,CommonUtils}
-import org.andre.mleap.wine.Utils._
+import org.andre.mleap.spark.{MLeapUtils,CommonUtils}
+import org.andre.mleap.spark.wine.Utils._
 
 case class DataHolder(trainingData: DataFrame, testData: DataFrame, assembler: VectorAssembler)
 
