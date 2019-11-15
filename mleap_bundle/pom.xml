@@ -9,7 +9,7 @@
   <properties>
     <scala.version>2.11.8</scala.version>
     <scala.binary.version>2.11</scala.binary.version>
-    <mleap.version>0.13.0</mleap.version>
+    <mleap.version>0.14.0</mleap.version>
     <jcommander.version>1.72</jcommander.version>
   </properties>
 
