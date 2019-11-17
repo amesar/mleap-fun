@@ -11,8 +11,6 @@ import ml.combust.mleap.core.types._
 import org.andre.mleap.spark.{MLeapUtils,CommonUtils}
 import org.andre.mleap.spark.wine.Utils._
 
-case class DataHolder(trainingData: DataFrame, testData: DataFrame, assembler: VectorAssembler)
-
 object SparkMLeapWriter {
   val spark = SparkSession.builder.appName("DecisionTreeRegressionExample").getOrCreate()
   println("Spark version: "+spark.version)
@@ -25,22 +23,8 @@ object SparkMLeapWriter {
     println(s"  schemaPath: ${opts.schemaPath}")
     println(s"  maxDepth: ${opts.maxDepth}")
     println(s"  maxBins: ${opts.maxBins}")
-    val dataHolder = prepareData(opts.dataPath, opts.schemaPath)
+    val dataHolder = prepareData(spark, opts.dataPath, opts.schemaPath)
     train(opts.bundlePath, dataHolder, opts.maxDepth, opts.maxBins)
-  }
-
-  def prepareData(dataPath: String, schemaPath: String) : DataHolder = {
-    val data = readData(spark, dataPath)
-
-    data.printSchema
-    scala.tools.nsc.io.File(schemaPath).writeAll(data.schema.json)
-
-    val columns = data.columns.toList.filter(_ != colLabel)
-    val assembler = new VectorAssembler()
-      .setInputCols(columns.toArray)
-      .setOutputCol("features")
-    val Array(trainingData, testData) = data.randomSplit(Array(0.7, 0.3), 2019)
-    DataHolder(trainingData, testData, assembler)
   }
 
   def train(bundlePath: String, dataHolder: DataHolder, maxDepth: Int, maxBins: Int) {
