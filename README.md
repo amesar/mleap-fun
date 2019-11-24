@@ -8,7 +8,7 @@ Demonstrates end-to-end creation of an MLeap bundle and serving it as a Spark bu
 * Versions:
   * Spark 2.4.4
   * MLeap 0.13.0
-* Create an MLeap bundle that can be read by either Spark or MLeap without Spark
+* Write an MLeap bundle that can be read by either Spark or MLeap without Spark
 * Load and score using SparkBundle (does not score correctly)
   * Run Databricks job to load and score using SparkBundle (scores correctly)
 * Load and score using MLeapBundle - no Spark code (scores correctly)
@@ -38,6 +38,7 @@ If the jar is run against a Databricks ML 6.1 cluster the program does score cor
 
 * Install Spark 2.4.4.
 * Install Scala 2.11.8.
+* To use [write_bundle.py](spark_bundle/python/write_bundle.py): `pip install mleap`
 
 ## SparkBundle
 **Build jar**
@@ -46,7 +47,7 @@ cd spark_bundle
 mvn clean package
 ```
 
-**Create bundle**
+**Write bundle**
 
 SparkMLeapWriter will create a schema file for the data in a Spark JSON schema format. 
 This file will be used by the MLeap bundle reader.
@@ -70,6 +71,18 @@ spark-submit \
   target/mleap-spark-examples-1.0-SNAPSHOT.jar \
   --bundlePath jar:file:$PWD/../bundles/wine-model.zip \
   --dataPath ../data/wine-quality-white.csv
+```
+
+**Python write bundle**
+
+You can also write a bundle with Python code. 
+Note that MLeap only supports JVM deserialization.
+```
+cd python
+spark-submit --master local[2] \
+  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.11:0.12.0 \
+  write_bundle.py \
+  --bundle_path jar:file:$PWD/wine-model.zip
 ```
 
 ## MleapBundle
