@@ -19,6 +19,7 @@ object Utils {
 
   def prepareData(spark: SparkSession, dataPath: String, schemaPath: String) : DataHolder = {
     val data = readData(spark, dataPath)
+    println("Data Schema:")
     data.printSchema
     scala.tools.nsc.io.File(schemaPath).writeAll(data.schema.json)
     val columns = data.columns.toList.filter(_ != colLabel)

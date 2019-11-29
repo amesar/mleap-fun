@@ -5,7 +5,8 @@ import ml.combust.mleap.runtime.frame.DefaultLeapFrame
 object PredictUtils {
   def predict(bundlePath: String, data: DefaultLeapFrame) {
     val model = MLeapUtils.readModelAsMLeapBundle(bundlePath)
-    println(s"Model class: ${model.getClass.getName}")
+    //println("Model.inputSchema: "+model.inputSchema)
+    //println(s"Model class: ${model.getClass.getName}")
 
     val transformed = model.transform(data).get
     val predictions = transformed.select("prediction").get.dataset.map(p => p.getDouble(0))

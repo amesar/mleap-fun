@@ -12,8 +12,8 @@ import org.apache.spark.sql.DataFrame
 object MLeapUtils {
   println("Mleap Bundle version: "+Bundle.version)
 
-  def saveModelAsSparkBundle(bundlePath: String, model: PipelineModel, df: DataFrame) {
-    val context = SparkBundleContext().withDataset(df)
+  def saveModelAsSparkBundle(bundlePath: String, model: PipelineModel, data: DataFrame) {
+    val context = SparkBundleContext().withDataset(data)
     val bundle = BundleFile(bundlePath)
     try {
       model.writeBundle.save(bundle)(context)

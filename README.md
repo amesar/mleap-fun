@@ -2,7 +2,9 @@
 
 Basic MLeap examples. 
 
-Demonstrates end-to-end creation of an MLeap bundle and serving it as a Spark bundle and MLeap bundle.
+Demonstrates end-to-end creation of an MLeap bundle and serving it as either a Spark bundle or MLeap bundle.
+
+I was frustrated at the lack of working examples and light documentation from the MLeap site, so I created this sampler which demonstrates basic usage of MLeap with Spark ML.
 
 #### Synopsis
 * Versions:
@@ -49,9 +51,9 @@ mvn clean package
 
 **Write bundle**
 
-SparkMLeapWriter will create a schema file for the data in a Spark JSON schema format. 
-This file will be used by the MLeap bundle reader.
-See [samples/wine_schema.json](samples/wine_schema.json).
+SparkMLeapWriter will create a schema file in a Spark JSON schema format for the input data.
+This file is only used by the MLeap bundle reader to create a LeapFrame.
+See [samples/wine-schema.json](samples/wine-schema.json).
 
 ```
 spark-submit \
@@ -60,7 +62,7 @@ spark-submit \
   target/mleap-spark-examples-1.0-SNAPSHOT.jar \
   --bundlePath jar:file:$PWD/../bundles/wine-model.zip \
   --dataPath ../data/wine-quality-white.csv \
-  --schemaPath ../wine_schema.json
+  --schemaPath ../bundles/wine-schema.json
 ```
 
 **Read and score Spark bundle**
@@ -102,7 +104,7 @@ scala \
   org.andre.mleap.wine.MLeapReader \
   --dataPath ../data/wine-quality-white.csv \
   --bundlePath jar:file:$PWD/../bundles/wine-model.zip \
-  --schemaPath ../wine_schema.json
+  --schemaPath ../bundles/wine-schema.json
 ```
 
 **Python read bundle**
@@ -129,7 +131,7 @@ databricks fs mkdirs dbfs:/tmp/mleap-fun
 databricks fs cp target/mleap-spark-examples-1.0-SNAPSHOT.jar dbfs:/tmp/mleap-fun
 databricks fs cp ../data/wine-quality-white.csv dbfs:/tmp/mleap-fun
 databricks fs cp ../bundles/wine-model.zip dbfs:/tmp/mleap-fun
-databricks fs cp wine_schema.json dbfs:/tmp/mleap-fun
+databricks fs cp wine-schema.json dbfs:/tmp/mleap-fun
 ```
 
 Run the job on the cluster.
