@@ -1,12 +1,12 @@
 package org.andre.mleap
 
 import ml.combust.mleap.runtime.frame.DefaultLeapFrame
+import ml.combust.mleap.runtime.frame.Transformer
 
 object PredictUtils {
-  def predict(bundlePath: String, data: DefaultLeapFrame) {
-    val model = MLeapUtils.readModelAsMLeapBundle(bundlePath)
-    //println("Model.inputSchema: "+model.inputSchema)
-    //println(s"Model class: ${model.getClass.getName}")
+  def predict(model: Transformer, data: DefaultLeapFrame) {
+    //println("Model inputSchema: "+model.inputSchema)
+    println(s"Model class: ${model.getClass.getName}")
 
     val transformed = model.transform(data).get
     val predictions = transformed.select("prediction").get.dataset.map(p => p.getDouble(0))

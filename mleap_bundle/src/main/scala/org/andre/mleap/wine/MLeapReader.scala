@@ -12,11 +12,23 @@ object MLeapReader {
     println(s"  dataPath: ${opts.dataPath}")
     println(s"  schemaPath: ${opts.schemaPath}")
     println(s"  bundlePath: ${opts.bundlePath}")
+    println(s"  autoSchema: ${opts.autoSchema}")
 
-    val schema = MLeapUtils.readSchema(opts.schemaPath)
-    val dataList = readData(opts.dataPath)
-    val data = DefaultLeapFrame(schema, dataList)
-    PredictUtils.predict(opts.bundlePath, data)
+    val model = MLeapUtils.readModelAsMLeapBundle(opts.bundlePath)
+    println("Model Schema:")
+    model.inputSchema.print
+    val schema = if (opts.autoSchema) {
+      model.inputSchema // NOTE: this croaks
+    } else {
+      MLeapUtils.readSchema(opts.schemaPath)
+    }
+    println("Using Schema:")
+    schema.print
+
+    val records = readData(opts.dataPath)
+    val data = DefaultLeapFrame(schema, records)
+
+    PredictUtils.predict(model, data)
   }
 
   def readData(dataPath: String) = {
@@ -35,5 +47,8 @@ object MLeapReader {
 
     @Parameter(names = Array("--schemaPath" ), description = "Schema Path", required=true)
     var schemaPath: String = null
+
+    @Parameter(names = Array("--autoSchema" ), description = "autoSchema", required=false)
+    var autoSchema = false
   }
 }
