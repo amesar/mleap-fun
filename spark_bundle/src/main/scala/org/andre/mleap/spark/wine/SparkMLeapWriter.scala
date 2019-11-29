@@ -53,8 +53,7 @@ object SparkMLeapWriter {
     } 
 
     CommonUtils.createOutputDir(bundlePath)
-    MLeapUtils.saveModelAsSparkBundle(bundlePath, model, dataHolder.trainingData) // NOTE: in write_bundle.py this fails
-    //MLeapUtils.saveModelAsSparkBundle(bundlePath, model, predictions)
+    MLeapUtils.saveModelAsSparkBundle(bundlePath, model, predictions)
   }
 
   object opts {

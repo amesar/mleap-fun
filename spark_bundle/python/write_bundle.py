@@ -31,12 +31,17 @@ if __name__ == "__main__":
     predictions = model.transform(testData)
     predictions.show(10,False)
 
+    # Print schemas
+    print("Data schema:")
+    data.printSchema()
+    print("Predictions schema:")
+    predictions.printSchema()
+
     # Write MLeap bundle
     fs_path = args.bundle_path.replace("jar:file:","")
     if os.path.exists(fs_path):
         os.remove(fs_path)
     model.serializeToBundle(args.bundle_path, predictions)
-    #model.serializeToBundle(args.bundle_path, data) # NOTE: fails with error. In Scala this works.
 
     # Write data schema file
     schema_path = "wine-schema.json"
