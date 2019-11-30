@@ -9,10 +9,14 @@ import org.apache.spark.ml.bundle.SparkBundleContext
 import org.apache.spark.ml.PipelineModel
 import org.apache.spark.sql.DataFrame
 
+import ml.combust.bundle.serializer.SerializationFormat
+import ml.combust.bundle.BundleFile
+
 object MLeapUtils {
   println("Mleap Bundle version: "+Bundle.version)
 
   def saveModelAsSparkBundle(bundlePath: String, model: PipelineModel, data: DataFrame) {
+    deleteBundle(bundlePath)
     val context = SparkBundleContext().withDataset(data)
     val bundle = BundleFile(bundlePath)
     try {
@@ -31,4 +35,10 @@ object MLeapUtils {
     }
   } 
 
+  def deleteBundle(bundlePath: String) {
+    if (bundlePath.startsWith("jar:file:")) {
+      val path = new java.io.File(bundlePath.replace("jar:file:",""))
+      path.delete
+    }
+  }
 }
