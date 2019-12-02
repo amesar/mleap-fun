@@ -6,6 +6,9 @@ from argparse import ArgumentParser
 from pyspark.sql import SparkSession
 from pyspark.ml import PipelineModel
 from mleap.pyspark.spark_support import SimpleSparkSerializer
+from mleap import version
+
+print("MLeap version:",version.__version__)
 
 if __name__ == "__main__":
     parser = ArgumentParser()

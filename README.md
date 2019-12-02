@@ -9,7 +9,7 @@ I was frustrated at the lack of working examples and light documentation from th
 #### Synopsis
 * Versions:
   * Spark 2.4.4
-  * MLeap 0.13.0
+  * MLeap 0.14.0
 * Write an MLeap bundle that can be read by either Spark or MLeap without Spark
 * Load and score using SparkBundle (does not score correctly)
   * Run Databricks job to load and score using SparkBundle (scores correctly)
@@ -81,7 +81,7 @@ You can also write a bundle with Python - see [write_bundle.py](spark_bundle/pyt
 ```
 cd python
 spark-submit --master local[2] \
-  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.11:0.12.0 \
+  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.11:0.14.0 \
   write_bundle.py \
   --bundle_path jar:file:$PWD/wine-model.zip
 ```
@@ -115,7 +115,7 @@ If you want to deserialize without using Spark you have to use the MLeapBundle w
 ```
 cd python
 spark-submit --master local[2] \
-  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.11:0.12.0 \
+  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.11:0.14.0 \
   write_bundle.py \
   --bundle_path jar:file:$PWD/wine-model.zip
 ```

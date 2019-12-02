@@ -8,6 +8,9 @@ from pyspark.ml import Pipeline
 from pyspark.ml.regression import DecisionTreeRegressor
 from pyspark.ml.feature import VectorAssembler
 from mleap.pyspark.spark_support import SimpleSparkSerializer
+from mleap import version
+
+print("MLeap version:",version.__version__)
 
 if __name__ == "__main__":
     parser = ArgumentParser()
