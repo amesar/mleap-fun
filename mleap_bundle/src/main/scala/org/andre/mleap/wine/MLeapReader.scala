@@ -14,7 +14,8 @@ object MLeapReader {
     println(s"  bundlePath: ${opts.bundlePath}")
     println(s"  autoSchema: ${opts.autoSchema}")
 
-    val model = MLeapUtils.readModelAsMLeapBundle(opts.bundlePath)
+    val model = MLeapUtils.readModel(opts.bundlePath)
+    println("Model: "+model.getClass)
     println("Model Schema:")
     model.inputSchema.print
     val schema = if (opts.autoSchema) {

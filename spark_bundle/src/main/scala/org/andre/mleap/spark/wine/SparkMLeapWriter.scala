@@ -53,7 +53,7 @@ object SparkMLeapWriter {
     } 
 
     CommonUtils.createOutputDir(bundlePath)
-    MLeapUtils.saveModelAsSparkBundle(bundlePath, model, predictions)
+    MLeapUtils.writeModel(bundlePath, model, predictions)
   }
 
   object opts {

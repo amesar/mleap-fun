@@ -18,8 +18,9 @@ object SparkMLeapReader {
     println("Spark version: "+spark.version)
     val data = readData(spark,opts.dataPath)
 
-    val model = MLeapUtils.readModelAsSparkBundle(opts.bundlePath)
+    val model = MLeapUtils.readModel(opts.bundlePath)
     val predictions = model.transform(data)
+    println("Model: "+model.getClass)
     println("Predictions:")
     predictions.select(colFeatures,colLabel,colPrediction).sort(colFeatures,colLabel,colPrediction).show(10)
 

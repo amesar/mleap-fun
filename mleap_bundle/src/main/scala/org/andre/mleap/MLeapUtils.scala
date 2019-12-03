@@ -5,6 +5,7 @@ import ml.combust.mleap.runtime.MleapSupport._
 import ml.combust.mleap.core.types.StructType
 import ml.combust.mleap.json.JsonSupport._
 import ml.combust.bundle.dsl.Bundle
+import ml.combust.mleap.runtime.frame.Transformer
 import resource.managed
 import spray.json._
 import scala.io.Source
@@ -12,7 +13,7 @@ import scala.io.Source
 object MLeapUtils {
   println("Mleap Bundle version: "+Bundle.version)
 
-  def readModelAsMLeapBundle(bundlePath: String) = {
+  def readModel(bundlePath: String) : Transformer = {
     val bundle = BundleFile(bundlePath)
     try {
       bundle.loadMleapBundle.get.root
