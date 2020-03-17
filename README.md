@@ -1,6 +1,6 @@
-# MLeap Examples
+# MLeap Sampler
 
-Basic MLeap examples. 
+Basic MLeap examples in both Scala and Python.
 
 Demonstrates end-to-end creation of an MLeap bundle and serving it as either a Spark bundle or MLeap bundle.
 
@@ -138,3 +138,7 @@ Run the job on the cluster.
 ```
 databricks runs submit --json-file run_submit.json
 ```
+
+## Databricks Notebooks
+
+A variant using Databricks notebooks can be found in [databricks_notebooks](databricks_notebooks).
