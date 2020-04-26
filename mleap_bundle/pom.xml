@@ -6,6 +6,26 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
 
+  <profiles>
+    <profile>
+      <id>scala-2.11</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <scala.version>2.11.8</scala.version>
+        <scala.binary.version>2.11</scala.binary.version>
+      </properties>
+    </profile>
+    <profile>
+      <id>scala-2.12</id>
+      <properties>
+        <scala.version>2.12.8</scala.version>
+        <scala.binary.version>2.12</scala.binary.version>
+      </properties>
+    </profile>
+  </profiles>
+
   <properties>
     <scala.version>2.11.8</scala.version>
     <scala.binary.version>2.11</scala.binary.version>
