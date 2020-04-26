@@ -8,7 +8,8 @@ import ml.combust.bundle.dsl.Bundle
 import ml.combust.mleap.spark.SparkSupport._
 
 object MLeapUtils {
-  println("Mleap Bundle version: "+Bundle.version)
+  println(s"Scala version: ${util.Properties.versionNumberString}")
+  println(s"Mleap Bundle version: ${Bundle.version}")
 
   def writeModel(bundlePath: String, model: PipelineModel, data: DataFrame) {
     deleteBundle(bundlePath)

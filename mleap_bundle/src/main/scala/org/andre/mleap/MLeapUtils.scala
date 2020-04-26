@@ -11,7 +11,8 @@ import spray.json._
 import scala.io.Source
 
 object MLeapUtils {
-  println("Mleap Bundle version: "+Bundle.version)
+  println(s"Scala version: ${util.Properties.versionNumberString}")
+  println(s"Mleap Bundle version: ${Bundle.version}")
 
   def readModel(bundlePath: String) : Transformer = {
     val bundle = BundleFile(bundlePath)
