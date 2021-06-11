@@ -8,9 +8,8 @@ from pyspark.ml import Pipeline
 from pyspark.ml.regression import DecisionTreeRegressor
 from pyspark.ml.feature import VectorAssembler
 from mleap.pyspark.spark_support import SimpleSparkSerializer
-from mleap import version
-
-print("MLeap version:",version.__version__)
+from mleap.version import version
+print("MLeap version:",version)
 
 if __name__ == "__main__":
     parser = ArgumentParser()
@@ -49,5 +48,5 @@ if __name__ == "__main__":
     # Write data schema file
     schema_path = "wine-schema.json"
     with open(schema_path, 'w') as f:
-      f.write(data.schema.json())
+        f.write(data.schema.json())
     print("schema_path:",schema_path)
