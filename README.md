@@ -36,29 +36,36 @@ If the jar is run against a Databricks ML 6.1 cluster the program does score cor
 
 ## Setup
 
+### Scala
+
 `mleap-sampler` can run with either Scala 2.11 and Spark 2.x or Scala 2.12 and Spark 3.x.
 
 Scala 2.11 and Spark 2.x
-* Maven profile `scala-2.11` (default)
+* Maven profile `spark-2x` (default)
 * Scala 2.11.8
 * Spark 2.4.5
 
 Scala 2.12 and Spark 3.x
-* Maven profile `scala-2.12`
+* Maven profile `spark-3x`
 * Scala 2.12.8
-* Spark 3.0.0-preview2 (or latest)
+* Spark 3.1.1 (or latest)
 
-For Python usage: `pip install mleap==0.15.0`
+### Python
+
+See [conda.yaml](conda.yaml).
 
 ## SparkBundle
 **Build jar**
+
+`cd spark_bundle`
+
+Spark 2.x
 ```
-cd spark_bundle
 mvn clean package
 ```
-or
+Spark 3.x
 ```
-mvn clean package -P scala-2.12
+mvn clean package -P spark-3x
 ```
 
 **Write bundle**
@@ -77,7 +84,7 @@ spark-submit \
   --schemaPath ../bundles/wine-schema.json
 ```
 
-**Read and score Spark bundle**
+**Read and score as Spark bundle**
 ```
 spark-submit \
   --class org.andre.mleap.spark.wine.SparkMLeapReader \
@@ -93,22 +100,23 @@ You can also write a bundle with Python - see [write_bundle.py](spark_bundle/pyt
 ```
 cd python
 spark-submit --master local[2] \
-  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.11:0.15.0 \
+  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.11:0.17.0 \
   write_bundle.py \
   --bundle_path jar:file:$PWD/wine-model.zip
 ```
 
 For Scala 2.12 use:
 ```
-  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.12:0.15.0 
+  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.12:0.17.0 
 ```
 
 ## MleapBundle
 
-This module does not contain any Spark code.
+This module does not reference a Spark context or contain any Spark code.
 [MLeapReader](mleap_bundle/src/main/scala/org/andre/mleap/wine/MLeapReader.scala)  uses the schema file created by SparkMLeapWriter.
 
 **Build jar**
+
 ```
 cd mleap_bundle
 mvn clean package
@@ -130,15 +138,15 @@ See [read_bundle.py](spark_bundle/python/read_bundle.py).
 Note that MLeap only supports deserialization with SparkBundle.
 If you want to deserialize without using Spark you have to use the MLeapBundle with Scala.
 ```
-cd python
+cd spark_bundle/python
 spark-submit --master local[2] \
-  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.11:0.15.0 \
+  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.11:0.17.0 \
   write_bundle.py \
   --bundle_path jar:file:$PWD/wine-model.zip
 ```
 For Scala 2.12 use:
 ```
-  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.12:0.15.0 
+  --packages com.databricks:spark-avro_2.11:3.0.1,ml.combust.mleap:mleap-spark_2.12:0.17.0 
 ```
 
 ## Running SparkBundleReader on Databricks

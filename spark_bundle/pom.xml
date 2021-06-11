@@ -8,7 +8,7 @@
 
   <profiles>
     <profile>
-      <id>scala-2.11</id>
+      <id>spark-2x</id>
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
@@ -19,17 +19,17 @@
       </properties>
     </profile>
     <profile>
-      <id>scala-2.12</id>
+      <id>spark-3x</id>
       <properties>
         <scala.version>2.12.8</scala.version>
         <scala.binary.version>2.12</scala.binary.version>
-        <spark.version>3.0.0-preview2</spark.version>
+        <spark.version>3.1.0</spark.version>
       </properties>
     </profile>
   </profiles>
 
   <properties>
-    <mleap.version>0.15.0</mleap.version>
+    <mleap.version>0.17.0</mleap.version>
     <jcommander.version>1.72</jcommander.version>
   </properties>
 
